@@ -1,1 +1,3 @@
 # NoDucklingIsUgly
+
+Except for some.
