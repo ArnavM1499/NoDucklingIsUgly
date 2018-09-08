@@ -1,3 +1,3 @@
 # NoDucklingIsUgly
 
-Except for some
+PennApps XVIII Hackathon Project
