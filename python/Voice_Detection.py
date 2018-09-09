@@ -40,20 +40,34 @@ class SpeechToText(Thread):
                 with io.open(self.filename, 'rb') as wav_file:
                     wav_data = wav_file.read()
                 speaker = Request.recognize_speaker(wav_data)
+                print("The speaker is: ", speaker)
                 last_lines.put(speech)
                 last_names.put(speaker)
                 victims = context.context_back(list(last_lines.queue)[::-1]) # Use context based checking to find the victim
-                for victim in victims:
+                print(victims)
+                if victims:
+                    for victim in victims:
+                        data = {
+                            "bully" : speaker,
+                            "victim" : victim[1],
+                            "statement" : speech,
+                            "toxicity" : score,
+                            "location" : "PennApps",
+                        }
+                        print(data)
+                        r = requests.post("https://lit-forest-54107.herokuapp.com/api/logBullyingEvent", data=data)
+                        print(r.text)
+                else:
                     data = {
-                        "bully" : speaker,
-                        "victim" : victim[1],
-                        "statement" : speech,
-                        "toxicity" : score,
-                        "location" : "PennApps",
-                    }
-                    print(data)
-                    r = requests.post("https://lit-forest-54107.herokuapp.com/api/logBullyingEvent", data=data)
-                    print(r.text)
+                            "bully" : speaker,
+                            "victim" : "Unknown",
+                            "statement" : speech,
+                            "toxicity" : score,
+                            "location" : "PennApps",
+                        }
+                        print(data)
+                        r = requests.post("https://lit-forest-54107.herokuapp.com/api/logBullyingEvent", data=data)
+                        print(r.text)
 
 
 def main():
@@ -86,13 +100,13 @@ def main():
             # print("No speech")
             silent_frames += 1
         if silent_frames >= SILENT_FRAME_COUNT and len(only_voice_frames) > 40:
-            print(
-                "{count} frames of silence detected, writing {no_frames} frames so far to new wav file: ".format(
-                    count=SILENT_FRAME_COUNT, no_frames=len(only_voice_frames)
-                ), WAVE_OUTPUT_FILENAME.format(
-                    wav_file_num=wav_file_num
-                )
-            )
+            # print(
+            #     "{count} frames of silence detected, writing {no_frames} frames so far to new wav file: ".format(
+            #         count=SILENT_FRAME_COUNT, no_frames=len(only_voice_frames)
+            #     ), WAVE_OUTPUT_FILENAME.format(
+            #         wav_file_num=wav_file_num
+            #     )
+            # )
 
             # Write audio so far to a wav file
             wf = wave.open(WAVE_OUTPUT_FILENAME.format(wav_file_num=wav_file_num), 'wb')

@@ -5,7 +5,7 @@ FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 16000
 CHUNK = 1024
-RECORD_SECONDS = 5
+RECORD_SECONDS = 40
 WAVE_OUTPUT_FILENAME = "jhosh_recording.wav"
  
 audio = pyaudio.PyAudio()
