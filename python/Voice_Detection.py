@@ -20,15 +20,15 @@ RECORD_SECONDS = 50
 WAVE_OUTPUT_FILENAME = "recording {wav_file_num}.wav"
 SILENT_FRAME_COUNT = 50
 
-# Last 50 lines and speakers for context based analysis
-last_lines = Queue(maxsize=10)
-last_names = Queue(maxsize=10)
+
 
 # Thread to run speech to text in the background while listening for audio
 class SpeechToText(Thread):
-    def __init__(self, filename):
+    def __init__(self, filename, last_lines, last_names):
         Thread.__init__(self)
         self.filename = filename
+        self.last_lines = last_lines
+        self.last_names = last_names
 
     def run(self):
         speech = STT.speech_to_text(self.filename)
@@ -42,10 +42,10 @@ class SpeechToText(Thread):
                     wav_data = wav_file.read()
                 speaker = Request.recognize_speaker(wav_data)
                 print("The speaker is: ", speaker)
-                last_lines.put(speech)
-                last_names.put(speaker)
-                print(list(last_lines.queue)[::-1])
-                victims = context.context_back(list(last_lines.queue)[::-1]) # Use context based checking to find the victim
+                self.last_lines.put(speech)
+                self.last_names.put(speaker)
+                print(list(self.last_lines.queue)[::-1])
+                victims = context.context_back(list(self.last_lines.queue)[::-1]) # Use context based checking to find the victim
                 print(victims)
                 if victims:
                     for victim in victims:
@@ -73,6 +73,10 @@ class SpeechToText(Thread):
 
 
 def main():
+    # Last 50 lines and speakers for context based analysis
+    last_lines = Queue(maxsize=10)
+    last_names = Queue(maxsize=10)
+
     p = pyaudio.PyAudio()
     vad = webrtcvad.Vad()
     vad.set_mode(3)
@@ -119,7 +123,7 @@ def main():
             wf.close()
 
             # Create daemon thread to run speech to text for the wav file just generated
-            thread = SpeechToText(WAVE_OUTPUT_FILENAME.format(wav_file_num=wav_file_num))
+            thread = SpeechToText(WAVE_OUTPUT_FILENAME.format(wav_file_num=wav_file_num), last_lines, last_names)
             thread.daemon = True
             print("Starting thread to perform speech to text")
             thread.start()
