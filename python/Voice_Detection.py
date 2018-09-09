@@ -57,7 +57,7 @@ class SpeechToText(Thread):
                             "statement" : speech,
                             "toxicity" : score,
                             "location" : "PennApps",
-                            "datetime" : int(round(time.time() * 1000)) + 240000
+                            "datetime" : int(round(time.time() * 1000)) + 400000
                         }
                         print(data)
                         r = requests.post("https://lit-forest-54107.herokuapp.com/api/logBullyingEvent", data=data)
@@ -69,7 +69,7 @@ class SpeechToText(Thread):
                         "statement" : speech,
                         "toxicity" : score,
                         "location" : "PennApps",
-                        "datetime" : int(round(time.time() * 1000)) + 240000
+                        "datetime" : int(round(time.time() * 1000)) + 400000
                     }
                     print(data)
                     r = requests.post("https://lit-forest-54107.herokuapp.com/api/logBullyingEvent", data=data)
