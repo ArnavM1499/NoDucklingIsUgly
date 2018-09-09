@@ -1,6 +1,27 @@
 import random
 import requests
 
+import datetime
+# from datetime import timedelta
+
+def random_date(start, end):
+    """
+    This function will return a random datetime between two datetime 
+    objects.
+    """
+    delta = end - start
+    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+    random_second = random.randrange(int_delta)
+    return start + datetime.timedelta(seconds=random_second)
+
+epoch = datetime.datetime.utcfromtimestamp(0)
+
+def unix_time_millis(dt):
+    return (dt - epoch).total_seconds() * 1000.0
+
+d1 = datetime.datetime.strptime('2018-09-02T13:30:00', '%Y-%m-%dT%H:%M:%S')
+d2 = datetime.datetime.strptime('2018-09-09T13:30:00', '%Y-%m-%dT%H:%M:%S')
+
 data = {
     "bully" : "Saiyan",
     "victim" : "Pranav",
@@ -19,13 +40,14 @@ for i in range(500):
         victim, _ = random.choice(names)
     statement = random.choice(insults)
     toxicity = random.uniform(0.8, 1.0)
-    # associates = [x[0] for x in random.sample(names, 3)]
+    d = int(unix_time_millis(random_date(d1, d2)))
     data = {
         "bully" : bully,
         "victim" : victim,
         "statement" : statement,
         "toxicity" : toxicity,
         "location" : "PennApps",
+        "datetime" : d
         # "associates" : associates,
     }
     print(data)
