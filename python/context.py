@@ -5,19 +5,27 @@ female_pronoun_list = ["she", "her", "hers"]
 third_pronoun_list = ["they", "them", "their"]
 male_student_list = ["Sayan","Clark","Bruce","Pablo","Than","Nick","Vennu","Pranav","Arnav","Josh"]
 female_student_list = ["Wanda", "Wonder", "Ada", "Rachel", "Jennifer"]
-pronoun_list = male_pronoun_list
+pronoun_list = []
+for m in male_pronoun_list:
+    pronoun_list.append(m)
 for f in female_pronoun_list:
     pronoun_list.append(f)
 for t in third_pronoun_list:
     pronoun_list.append(t)
+student_list = []
+for m in male_student_list:
+    student_list.append(m)
+for f in female_student_list:
+    student_list.append(f)
 
 def context_back(line_list):
-    for l in range(len(line_list)):
-        print(line_list[len(line_list)-l-1])
-    first = line_list[0].split(" ")
-    first = list(map(lambda x : x.lower(), first))
-    pr = []
+    first1 = line_list[0].split(" ")
+    first = list(map(lambda x : x.lower(), first1))
     ret = []
+    for word in first1:
+        if word in student_list:
+            ret.append(("", word))
+    pr = []
     for pron in pronoun_list:
         if pron in first:
             pr.append(pron)
