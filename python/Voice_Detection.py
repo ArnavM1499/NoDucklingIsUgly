@@ -1,11 +1,13 @@
 from threading import Thread
 from toxic import toxic_check
+from queue import Queue
 
 import io
 import pyaudio
 import wave
 import webrtcvad
 
+import context
 import Request
 import STT
 
@@ -16,6 +18,10 @@ RATE = 16000
 RECORD_SECONDS = 50
 WAVE_OUTPUT_FILENAME = "recording {wav_file_num}.wav"
 SILENT_FRAME_COUNT = 50
+
+# Last 50 lines and speakers for context based analysis
+last_lines = Queue(maxsize=10)
+last_names = Queue(maxsize=10)
 
 # Thread to run speech to text in the background while listening for audio
 class SpeechToText(Thread):
@@ -29,9 +35,23 @@ class SpeechToText(Thread):
             print(speech)
             _, score = toxic_check(speech)
             print(score)
-            with io.open(self.filename, 'rb') as wav_file:
-                wav_data = wav_file.read()
-            Request.recognize_speaker(wav_data)
+            if score >= 0.8:
+                print("Toxic detected")
+                with io.open(self.filename, 'rb') as wav_file:
+                    wav_data = wav_file.read()
+                speaker = Request.recognize_speaker(wav_data)
+                last_lines.put(speech)
+                last_names.put(speaker)
+                victims = context.context_back(list(last_lines.queue)[::-1]) # Use context based checking to find the victim
+                for victim in victims:
+                    data = {
+                        "bully" : speaker,
+                        "victim" : victim[1],
+                        "statement" : speech,
+                        "toxicity" : score,
+                        "location" : "PennApps",
+                    }
+                    r = requests.post("https://lit-forest-54107.herokuapp.com/api/logBullyingEvent", data=data)
 
 
 def main():

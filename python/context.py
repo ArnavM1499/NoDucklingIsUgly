@@ -1,3 +1,5 @@
+# Perform context based predictions for people
+
 male_pronoun_list = ["he", "him", "his"]
 female_pronoun_list = ["she", "her", "hers"]
 third_pronoun_list = ["they", "them", "their"]
@@ -36,5 +38,3 @@ def context_back(line_list):
                         ret.append((pron, stud))
                         check = False
     return ret
-                        
-                    
