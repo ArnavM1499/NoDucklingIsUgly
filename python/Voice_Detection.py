@@ -44,6 +44,7 @@ class SpeechToText(Thread):
                 print("The speaker is: ", speaker)
                 last_lines.put(speech)
                 last_names.put(speaker)
+                print(list(last_lines.queue)[::-1])
                 victims = context.context_back(list(last_lines.queue)[::-1]) # Use context based checking to find the victim
                 print(victims)
                 if victims:
