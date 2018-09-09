@@ -4,6 +4,7 @@ from queue import Queue
 
 import io
 import pyaudio
+import requests
 import wave
 import webrtcvad
 
