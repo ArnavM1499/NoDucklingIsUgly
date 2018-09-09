@@ -36,8 +36,9 @@ def recognize_speaker(wav_data):
     # print("Done")
     print(result)
     if 'identifiedProfileId' in result.keys():
-        print(people[result['identifiedProfileId']], result['confidence'])
-        return people[result['identifiedProfileId']]
+        x = people[result['identifiedProfileId']]
+        print(x, result['confidence'])
+        return "Pranav" if x == "No Match" else x
     else:
         print("Pranav Normal Default")
         return "Pranav"

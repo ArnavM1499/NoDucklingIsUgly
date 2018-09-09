@@ -33,6 +33,8 @@ class SpeechToText(Thread):
     def run(self):
         speech = STT.speech_to_text(self.filename)
         if speech:
+            self.last_lines.put(speech)
+            self.last_names.put(speaker)
             print(speech)
             _, score = toxic_check(speech)
             print(score)
@@ -42,8 +44,6 @@ class SpeechToText(Thread):
                     wav_data = wav_file.read()
                 speaker = Request.recognize_speaker(wav_data)
                 print("The speaker is: ", speaker)
-                self.last_lines.put(speech)
-                self.last_names.put(speaker)
                 print(list(self.last_lines.queue)[::-1])
                 victims = context.context_back(list(self.last_lines.queue)[::-1]) # Use context based checking to find the victim
                 print(victims)
