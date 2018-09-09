@@ -59,15 +59,15 @@ class SpeechToText(Thread):
                         print(r.text)
                 else:
                     data = {
-                            "bully" : speaker,
-                            "victim" : "Unknown",
-                            "statement" : speech,
-                            "toxicity" : score,
-                            "location" : "PennApps",
-                        }
-                        print(data)
-                        r = requests.post("https://lit-forest-54107.herokuapp.com/api/logBullyingEvent", data=data)
-                        print(r.text)
+                        "bully" : speaker,
+                        "victim" : "Unknown",
+                        "statement" : speech,
+                        "toxicity" : score,
+                        "location" : "PennApps",
+                    }
+                    print(data)
+                    r = requests.post("https://lit-forest-54107.herokuapp.com/api/logBullyingEvent", data=data)
+                    print(r.text)
 
 
 def main():
