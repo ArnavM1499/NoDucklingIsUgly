@@ -51,7 +51,9 @@ class SpeechToText(Thread):
                         "toxicity" : score,
                         "location" : "PennApps",
                     }
+                    print(data)
                     r = requests.post("https://lit-forest-54107.herokuapp.com/api/logBullyingEvent", data=data)
+                    print(r.text)
 
 
 def main():
