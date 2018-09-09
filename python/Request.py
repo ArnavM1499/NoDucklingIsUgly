@@ -6,9 +6,9 @@ def recognize_speaker(wav_data):
     people = {
         '00000000-0000-0000-0000-000000000000' : 'No Match',
         '2338f519-b782-4756-b0be-557fa731f1bf' : 'Pranav',
-        '818a16b4-8068-418a-88b5-d9f45a803e93' : 'Saiyan',
-        '820b1301-cb96-4155-9f22-afc0b4d891cb' : 'Jhosh',
-        '5579c474-3c9e-4bdd-b1a6-9480c3d1366a' : 'Yung Nav'
+        '818a16b4-8068-418a-88b5-d9f45a803e93' : 'Sayan',
+        '820b1301-cb96-4155-9f22-afc0b4d891cb' : 'Josh',
+        '5579c474-3c9e-4bdd-b1a6-9480c3d1366a' : 'Arnav'
     }
     subscription_key = '38ca07d3e98a41889877dca1a68c884d'
 
