@@ -25,18 +25,19 @@ class SpeechToText(Thread):
 
     def run(self):
         speech = STT.speech_to_text(self.filename)
-        print(speech)
-        _, score = toxic_check(speech)
-        print(score)
-        with io.open(self.filename, 'rb') as wav_file:
-            wav_data = wav_file.read()
-        Request.recognize_speaker(wav_data)
+        if speech:
+            print(speech)
+            _, score = toxic_check(speech)
+            print(score)
+            with io.open(self.filename, 'rb') as wav_file:
+                wav_data = wav_file.read()
+            Request.recognize_speaker(wav_data)
 
 
 def main():
     p = pyaudio.PyAudio()
     vad = webrtcvad.Vad()
-    vad.set_mode(0)
+    vad.set_mode(3)
 
     stream = p.open(
         format=FORMAT,

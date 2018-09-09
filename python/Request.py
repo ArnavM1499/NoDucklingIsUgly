@@ -4,6 +4,7 @@ import io
 
 def recognize_speaker(wav_data):
     people = {
+        '00000000-0000-0000-0000-000000000000' : 'No Match',
         '2338f519-b782-4756-b0be-557fa731f1bf' : 'Pranav',
         '818a16b4-8068-418a-88b5-d9f45a803e93' : 'Saiyan',
         'b468f3aa-e303-4290-95ff-68a74524900e' : 'Jhosh' 
@@ -33,3 +34,5 @@ def recognize_speaker(wav_data):
     # print(result)
     if 'identifiedProfileId' in result.keys():
         print(people[result['identifiedProfileId']], result['confidence'])
+    else:
+        print("Pranav Normal Default")
