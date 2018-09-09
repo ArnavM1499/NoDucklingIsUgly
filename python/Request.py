@@ -40,4 +40,4 @@ def recognize_speaker(wav_data):
     else:
         print("Pranav Normal Default")
 
-recognize_speaker(None)
+# recognize_speaker(None)
