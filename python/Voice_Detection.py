@@ -34,7 +34,7 @@ class SpeechToText(Thread):
         speech = STT.speech_to_text(self.filename)
         if speech:
             self.last_lines.put(speech)
-            self.last_names.put(speaker)
+            # self.last_names.put(speaker)
             print(speech)
             _, score = toxic_check(speech)
             print(score)
