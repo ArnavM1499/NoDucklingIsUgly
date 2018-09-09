@@ -10,7 +10,7 @@ def speech_to_text(filename):
     r = sr.Recognizer()
     file = sr.AudioFile(filename)
     with file as source:
-        r.adjust_for_ambient_noise(source, duration=0.5)
+        # r.adjust_for_ambient_noise(source, duration=0.5)
         audio = r.record(source)
 
     # recognize speech using Google Speech Recognition
