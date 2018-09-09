@@ -1,6 +1,0 @@
-SpeechRecognition
-ms-cognitive-speaker-recognition
-google-api-python-client
-pyaudio
-wave
-requests
